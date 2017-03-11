@@ -1,9 +1,7 @@
-// require('normalize.css/normalize.css');
-// require()
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Common extends React.Component{
+class App extends React.Component {
     constructor(props){
         super(props)
     }
@@ -17,4 +15,4 @@ class Common extends React.Component{
         )
     }
 }
-export default Common
+export default App

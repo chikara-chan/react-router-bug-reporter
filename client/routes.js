@@ -7,12 +7,12 @@ if(typeof require.ensure !=='function'){
 const routes = {
     childRoutes:[{
         path:'/',
-        component:require('./common/containers/Root'),
+        component:require('./components/App'),
         indexRoute:{
             getComponent(nextState,callback){
                 require.ensure([],require=>{
-                    callback(null,require('./audioPlay/containers/App'))
-                },'audioPlay')
+                    callback(null,require('./components/Section'))
+                })
             }
         }
     }]
