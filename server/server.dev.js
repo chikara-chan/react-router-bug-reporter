@@ -1,39 +1,28 @@
 require('babel-polyfill')
 
-require('source-map-support').install()
-
 require('babel-register')({
-    presets:['es2015','react','stage-0'],
+    presets:['es2015','react'],
     plugins:['add-module-exports']
 })
 
-const app = require('./app.js'),
-    convert = require('koa-convert'),//用于转换中间件，将generator式的中间件转化为promise式的中间件，反之亦然。
+const Koa = require('Koa'),
+    app = new Koa(),
+    convert = require('koa-convert'),
     webpack = require('webpack'),
-    fs = require('fs'),
     path = require('path'),
     devMiddleware  = require('koa-webpack-dev-middleware'),
     hotMiddleware= require('koa-webpack-hot-middleware'),
     views = require('koa-views'),
     clientRoute = require('./middlewares/clientRoute'),
     config = require('../build/webpack.dev.config'),
-    port = process.env.port||3000,
     compiler = webpack(config)
 
-compiler.plugin('emit',(compilation,callback)=>{
-    const assets = compilation.assets
-    let file,data
-    Object.keys(assets).forEach(key=>{
-        if(key.match(/\.html$/)){
-            file = path.resolve(__dirname,key)
-            data = assets[key].source()
-            fs.writeFileSync(file,data)
-        }
-    })
-    callback()
-})
 
-app.use(views(path.resolve(__dirname,'../views/dev'),{map:{html:'ejs'}}))
+app.use(views(path.resolve(__dirname,'../views'),{
+    map:{
+        html:'ejs'
+    }
+}))
 
 app.use(convert(devMiddleware(compiler, {
     noInfo: true,
@@ -42,5 +31,6 @@ app.use(convert(devMiddleware(compiler, {
 app.use(convert(hotMiddleware(compiler)))
 app.use(clientRoute)
 
-console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
-app.listen(port)
+
+app.listen(3000)
+console.log(`\n==> 🌎  Listening on port 3000. Open up http://localhost:3000/ in your browser.\n`)

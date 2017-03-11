@@ -1,3 +1,7 @@
-# myplayer-isomorphic
-react+react-router+redux+koa server rendering
-npm run dev
+# react-isomorphic
+
+``` bash
+npm run dev     # run in development environment
+npm run build   # bundle all client and server files
+npm run start   # start production environment
+```

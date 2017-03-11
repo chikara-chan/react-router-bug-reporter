@@ -1,14 +1,18 @@
 import 'babel-polyfill'
+import Koa from 'koa'
 import serve from 'koa-static'
 import path from 'path'
 import views from 'koa-views'
-import app from './app'
 import clientRoute from './middlewares/clientRoute'
 
-const port = process.env.port || 3000
+const app = new Koa()
 
-app.use(views(path.resolve(__dirname, '../views/prod'), {map: {html: 'ejs'}}))
+app.use(views(path.resolve(__dirname, '../views'), {
+    map: {
+        html: 'ejs'
+    }
+}))
 app.use(serve(path.resolve(__dirname, '../dist/client')))
 app.use(clientRoute)
-app.listen(port)
-console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
+app.listen(3000)
+console.log(`\n==> 🌎  Listening on port 3000. Open up http://localhost:3000/ in your browser.\n`)
