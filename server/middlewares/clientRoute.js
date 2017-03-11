@@ -3,10 +3,11 @@ import {renderToString} from 'react-dom/server'
 import {match,RouterContext} from 'react-router'
 import routes from '../../client/routes'
 
-async function clientRoute(ctx,next){
+async function clientRoute(ctx){
     let _renderProps
 
     match({routes,location:ctx.url},(error,redirectLocation,renderProps)=>{
+        console.log(renderProps)
         _renderProps=renderProps
         console.log(1)
     })

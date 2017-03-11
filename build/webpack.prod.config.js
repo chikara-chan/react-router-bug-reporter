@@ -22,16 +22,13 @@ clientConfig = {
         bundle: './client',
         vendor: [
             'react',
-            'react-dom',
-            'redux',
-            'react-redux',
-            'superagent'
+            'react-dom'
         ]
     },
     output: {
         path: path.resolve(__dirname, '../dist/client'),
-        filename: '[name].[chunkhash:8].js',
-        chunkFilename: 'chunk.[name].[chunkhash:8].js',
+        filename: '[name].js',
+        chunkFilename: 'chunk.[name].js',
         publicPath: '/'
     },
     module: {
@@ -42,26 +39,9 @@ clientConfig = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['es2015', 'react', 'stage-0'],
-                    plugins: ['transform-runtime', 'add-module-exports'],
+                    plugins: ['add-module-exports'],
                     cacheDirectory: true
                 }
-            }, {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract([
-                    'style-loader',
-                    'css-loader?modules&camelCase&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:8]',
-                    'postcss-loader',
-                    'sass-loader'
-                ])
-            }, {
-                test: /\.(jpg|png|gif|webp)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 8000
-                }
-            }, {
-                test: /\.json$/,
-                loader: 'json-loader'
             }, {
                 test: /\.html$/,
                 loader: 'html-loader',
@@ -79,18 +59,16 @@ clientConfig = {
         // new webpack.optimize.DedupePlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendor', 'manifest'],
-            filename: '[name].[chunkhash:8].js'
+            filename: '[name].js'
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false },
             comments: false
         }),
-        new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) }),
         new HtmlWebpackPlugin({
             filename: '../../views/prod/index.html',
             template: './views/tpl/index.tpl.html'
-        }),
-        new ExtractTextPlugin({ filename: '[name].[contenthash:8].css', allChunks: true }) //提取css文件，以contenthash方式命名
+        })
     ]
 }
 

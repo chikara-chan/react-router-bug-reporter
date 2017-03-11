@@ -33,13 +33,14 @@ compiler.plugin('emit',(compilation,callback)=>{
     callback()
 })
 
-app.use(views(path.resolve(__dirname,'../views/dev'),{map:{html:'ejs'}}))//在views/dev目录下的文件，每一个以.html结尾的都会以ejs模板引擎解析
-app.use(clientRoute)
+app.use(views(path.resolve(__dirname,'../views/dev'),{map:{html:'ejs'}}))
 
-console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
 app.use(convert(devMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
 })))
 app.use(convert(hotMiddleware(compiler)))
+app.use(clientRoute)
+
+console.log(`\n==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.\n`)
 app.listen(port)
